@@ -20,8 +20,26 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#E7E7FF' }}>
-      <div className="w-full p-4" style={{ backgroundColor: '#B2EA5F' }} />
+    <div className="min-h-screen relative" style={{ backgroundColor: '#E7E7FF' }}>
+      <div className="w-full p-10" style={{ backgroundColor: '#B2EA5F' }}>
+        {/* Buttons added to the banner */}
+        <div className="flex justify-end items-center space-x-4">
+          <button
+            className="px-6 py-3 rounded-xl text-lg font-semibold"
+            style={{ backgroundColor: '#B2EA5F', color: '#FFFFFF' }}
+            onClick={() => setScreen('mission')}
+          >
+            Our Mission
+          </button>
+          <button
+            className="px-6 py-3 rounded-xl text-lg font-semibold"
+            style={{ backgroundColor: '#B2EA5F', color: '#FFFFFF' }}
+            onClick={() => setScreen('login')}
+          >
+            Login
+          </button>
+        </div>
+      </div>
 
       {screen === 'landing' && (
         <div className="flex flex-col items-center justify-center text-center h-[90vh] px-4">
@@ -60,6 +78,15 @@ export default function Home() {
               I’m an Employer
             </button>
           </div>
+
+          {/* Back button in bottom left corner */}
+          <button
+            className="absolute top-26 left-6 px-4 py-2 text-white rounded-xl text-sm"
+            style={{ backgroundColor: '#86B2F5' }}
+            onClick={() => setScreen('landing')}
+          >
+            ← Back
+          </button>
         </div>
       )}
 
