@@ -5,8 +5,7 @@ export async function POST(req: Request) {
       const { resume, jobDesc } = await req.json();
   
       const prompt = `
-  You are a professional recruiter. Analyze the following resume and job description.
-  
+Follow these tasks to analyze the resume and job description. I do not want to know your full thought process.  
   Resume:
   ${resume}
   
@@ -26,7 +25,7 @@ export async function POST(req: Request) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'DeepSeek R1 Distill Llama 70B Free', // Updated model name
+          model: 'deepseek-ai/DeepSeek-R1-Distill-Llama-70B-free', // Updated model name
           messages: [{ role: 'user', content: prompt }],
           temperature: 0.7,
         }),
