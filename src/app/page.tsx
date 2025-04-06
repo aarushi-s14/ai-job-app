@@ -281,65 +281,69 @@ const stopRecording = () => {
         </div>
       )}
 
-    {isInterviewActive && (
-     <div className="mt-6 bg-gray-100 p-4 rounded-xl">
-     <h3 className="text-lg font-semibold mb-2 text-black">Mock Interview</h3>
-   
-     <div className="flex items-center gap-4 mb-4">
-       {/* Add the image here */}
-       <img
-         src="httpshttps://drive.google.com/file/d/1wm7z5oyNAizNbm7I_e5tvgY2G4oudLB4/view?usp=sharing://drive.google.com/uc?export=view&id=1wm7z5oyNAizNbm7I_e5tvgY2G4oudLB4"
-         alt="AI Interviewer"
-         className="w-20 h-20 rounded-full border border-gray-300"
-       />
-       <div>
-         <p className="text-black"><strong>AI Interviewer:</strong> {currentQuestion}</p>
-         <button
-           className="mt-2 px-3 py-1 rounded text-sm text-white"
-           style={{ backgroundColor: '#3F3DE8' }}
-           onClick={() => speak(currentQuestion)}
-         >
-           🔊 Hear Question
-         </button>
-       </div>
-     </div>
-   
-     <div className="flex gap-4 items-center">
-       {!recording ? (
-         <button
-           className="px-4 py-2 rounded-xl text-white"
-           style={{ backgroundColor: '#DD649C' }}
-           onClick={startRecording}
-         >
-           🎙️ Record Answer
-         </button>
-       ) : (
-         <button
-           className="px-4 py-2 rounded-xl text-white"
-           style={{ backgroundColor: '#FF6B6B' }}
-           onClick={stopRecording}
-         >
-           ⏹️ Stop Recording
-         </button>
-       )}
-   
-       {audioUrl && (
-         <audio controls className="ml-2">
-           <source src={audioUrl} type="audio/webm" />
-         </audio>
-       )}
-     </div>
-   
-     <button
-       className="mt-4 px-4 py-2 text-white rounded-xl"
-       style={{ backgroundColor: '#DD649C' }}
-       onClick={endMockInterview}
-     >
-       End Interview
-     </button>
-   </div>
-         
-    )}
+{isInterviewActive && (
+  <div className="mt-6 bg-gray-100 p-4 rounded-xl">
+    <h3 className="text-lg font-semibold mb-2 text-black">Mock Interview</h3>
+  
+    <div className="flex items-start gap-6 mb-6">
+      {/* Add the larger image here */}
+      <img
+        src="ChatGPT Image Apr 5, 2025, 10_15_24 PM.png"
+        alt="AI Interviewer"
+        className="w-500 h-100 rounded-full object-cover border border-gray-300"
+      />
+      <div className="relative bg-blue-100 p-4 rounded-xl max-w-[80%]">
+        <div className="absolute -top-2 left-2 transform rotate-45 bg-blue-100 w-4 h-4 border-t border-l border-blue-100"></div>
+        <p className="text-black">
+          <strong>AI Interviewer:</strong> {currentQuestion}
+        </p>
+      </div>
+    </div>
+  
+    <button
+      className="mt-2 px-3 py-1 rounded text-sm text-white"
+      style={{ backgroundColor: '#3F3DE8' }}
+      onClick={() => speak(currentQuestion)}
+    >
+      🔊 Hear Question
+    </button>
+  
+    <div className="flex gap-4 items-center mt-4">
+      {!recording ? (
+        <button
+          className="px-4 py-2 rounded-xl text-white"
+          style={{ backgroundColor: '#DD649C' }}
+          onClick={startRecording}
+        >
+          🎙️ Record Answer
+        </button>
+      ) : (
+        <button
+          className="px-4 py-2 rounded-xl text-white"
+          style={{ backgroundColor: '#FF6B6B' }}
+          onClick={stopRecording}
+        >
+          ⏹️ Stop Recording
+        </button>
+      )}
+  
+      {audioUrl && (
+        <audio controls className="ml-2">
+          <source src={audioUrl} type="audio/webm" />
+        </audio>
+      )}
+    </div>
+  
+    <button
+      className="mt-4 px-4 py-2 text-white rounded-xl"
+      style={{ backgroundColor: '#DD649C' }}
+      onClick={endMockInterview}
+    >
+      End Interview
+    </button>
+  </div>
+)}
+
 
     </div>
 
