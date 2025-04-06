@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 export default function Home() {
-  const [screen, setScreen] = useState('landing'); // 'landing', 'role', 'analyzer'
+  const [screen, setScreen] = useState('landing'); // 'landing', 'role', 'analyzer', 'mission', 'login'
   const [role, setRole] = useState('');
   const [resume, setResume] = useState('');
   const [jobDesc, setJobDesc] = useState('');
@@ -20,20 +20,20 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen relative" style={{ backgroundColor: '#E7E7FF' }}>
-      <div className="w-full p-10" style={{ backgroundColor: '#B2EA5F' }}>
+    <div className="min-h-screen relative" style={{ backgroundColor: '#FFFFFF' }}>
+      <div className="w-full p-10" style={{ backgroundColor: '#3F3DE8' }}>
         {/* Buttons added to the banner */}
         <div className="flex justify-end items-center space-x-4">
           <button
             className="px-6 py-3 rounded-xl text-lg font-semibold"
-            style={{ backgroundColor: '#B2EA5F', color: '#FFFFFF' }}
+            style={{ backgroundColor: '#DD649C', color: '#FFFFFF' }}
             onClick={() => setScreen('mission')}
           >
             Our Mission
           </button>
           <button
             className="px-6 py-3 rounded-xl text-lg font-semibold"
-            style={{ backgroundColor: '#B2EA5F', color: '#FFFFFF' }}
+            style={{ backgroundColor: '#DD649C', color: '#FFFFFF' }}
             onClick={() => setScreen('login')}
           >
             Login
@@ -41,17 +41,18 @@ export default function Home() {
         </div>
       </div>
 
+      {/* Landing screen */}
       {screen === 'landing' && (
         <div className="flex flex-col items-center justify-center text-center h-[90vh] px-4">
-          <h1 className="text-6xl font-extrabold mb-4" style={{ color: '#74ED29' }}>
-            resuME
+          <h1 className="text-6xl font-extrabold mb-4" style={{ color: '#DD649C' }}>
+            Resu-ME
           </h1>
-          <p className="text-2xl mb-8" style={{ color: '#74ED29' }}>
+          <p className="text-2xl mb-8" style={{ color: 'black' }}>
             The perfect place to prep for an interview!
           </p>
           <button
             className="px-6 py-3 rounded-xl text-white text-lg font-semibold"
-            style={{ backgroundColor: '#86B2F5' }}
+            style={{ backgroundColor: '#DD649C' }}
             onClick={() => setScreen('role')}
           >
             Let’s Go!
@@ -59,20 +60,55 @@ export default function Home() {
         </div>
       )}
 
+      {/* Our Mission screen */}
+      {screen === 'mission' && (
+        <div className="p-6 max-w-3xl mx-auto text-center">
+          <h1 className="text-3xl font-bold mb-4" style={{ color: 'black' }}>Our Mission</h1>
+          <p className="text-lg mb-6">
+            Our mission is to help job seekers and employers alike find the best matches using smart AI tools.
+          </p>
+          {/* Back button in bottom left corner */}
+          <button
+            className="absolute top-26 left-6 px-4 py-2 text-white rounded-xl text-sm"
+            style={{ backgroundColor: '#DD649C' }}
+            onClick={() => setScreen('landing')}
+          >
+            ← Back
+          </button>
+        </div>
+      )}
+
+      {/* Login screen */}
+      {screen === 'login' && (
+        <div className="p-6 max-w-3xl mx-auto text-center">
+          <h1 className="text-3xl font-bold mb-4" style={{ color: 'black' }}>Login</h1>
+          <p className="text-lg mb-6">Login functionality coming soon!</p>
+          {/* Back button in bottom left corner */}
+          <button
+            className="absolute top-26 left-6 px-4 py-2 text-white rounded-xl text-sm"
+            style={{ backgroundColor: '#DD649C' }}
+            onClick={() => setScreen('landing')}
+          >
+            ← Back
+          </button>
+        </div>
+      )}
+
+      {/* Role selection screen */}
       {screen === 'role' && (
         <div className="p-6 max-w-3xl mx-auto text-center">
-          <h1 className="text-3xl font-bold mb-4" style={{ color: '#74ED29' }}>AI Helper</h1>
+          <h1 className="text-3xl font-bold mb-4" style={{ color: 'black' }}>AI Helper</h1>
           <div className="grid gap-4">
             <button
               className="px-4 py-2 text-white rounded-xl"
-              style={{ backgroundColor: '#86B2F5' }}
+              style={{ backgroundColor: '#DD649C' }}
               onClick={() => setRole('employee')}
             >
               I’m a Job Seeker
             </button>
             <button
               className="px-4 py-2 text-white rounded-xl"
-              style={{ backgroundColor: '#86B2F5' }}
+              style={{ backgroundColor: '#DD649C' }}
               onClick={() => setRole('employer')}
             >
               I’m an Employer
@@ -82,7 +118,7 @@ export default function Home() {
           {/* Back button in bottom left corner */}
           <button
             className="absolute top-26 left-6 px-4 py-2 text-white rounded-xl text-sm"
-            style={{ backgroundColor: '#86B2F5' }}
+            style={{ backgroundColor: '#DD649C' }}
             onClick={() => setScreen('landing')}
           >
             ← Back
@@ -90,10 +126,11 @@ export default function Home() {
         </div>
       )}
 
+      {/* Analyzer screen for both roles */}
       {(role === 'employee' || role === 'employer') && (
         <div className="p-6 max-w-3xl mx-auto">
           <div className="mt-6 bg-white p-4 rounded-xl shadow">
-            <h2 className="text-xl font-semibold mb-2" style={{ color: '#74ED29' }}>
+            <h2 className="text-xl font-semibold mb-2" style={{ color: 'black' }}>
               {role === 'employee' ? 'Resume Analyzer' : 'Candidate Analyzer'}
             </h2>
             <textarea
@@ -110,7 +147,7 @@ export default function Home() {
             />
             <button
               className="px-4 py-2 text-white rounded-xl mt-4"
-              style={{ backgroundColor: '#86B2F5' }}
+              style={{ backgroundColor: '#DD649C' }}
               onClick={handleAnalyze}
             >
               {role === 'employee' ? 'Analyze Fit' : 'Analyze Candidate'}
