@@ -170,9 +170,9 @@ export default function Home() {
           </p>
           <br></br>
           <img
-            src="Untitled design (2).png"
+            src="772299788.jpg"
             alt="Home"
-            className="w-500 h-125"
+            className="w-300 h-125"
           />
           <button
             className="px-6 py-3 rounded-xl text-white text-lg font-semibold"
