@@ -19,10 +19,16 @@ export default function Home() {
     setResult(data.result);
   };
 
+  // Function to reset text boxes and go back to role selection
+  const handleBackToRole = () => {
+    setResume('');      // Clear resume input
+    setJobDesc('');     // Clear job description input
+    setScreen('role');  // Go back to role selection screen
+  };
+
   return (
     <div className="min-h-screen relative" style={{ backgroundColor: '#FFFFFF' }}>
       <div className="w-full p-10" style={{ backgroundColor: '#3F3DE8' }}>
-        {/* Buttons added to the banner */}
         <div className="flex justify-end items-center space-x-4">
           <button
             className="px-6 py-3 rounded-xl text-lg font-semibold"
@@ -41,7 +47,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Landing screen */}
       {screen === 'landing' && (
         <div className="flex flex-col items-center justify-center text-center h-[90vh] px-4">
           <h1 className="text-6xl font-extrabold mb-4" style={{ color: '#DD649C' }}>
@@ -60,14 +65,12 @@ export default function Home() {
         </div>
       )}
 
-      {/* Our Mission screen */}
       {screen === 'mission' && (
         <div className="p-6 max-w-3xl mx-auto text-center">
           <h1 className="text-3xl font-bold mb-4" style={{ color: 'black' }}>Our Mission</h1>
           <p className="text-lg mb-6">
             Our mission is to help job seekers and employers alike find the best matches using smart AI tools.
           </p>
-          {/* Back button in bottom left corner */}
           <button
             className="absolute top-26 left-6 px-4 py-2 text-white rounded-xl text-sm"
             style={{ backgroundColor: '#DD649C' }}
@@ -78,12 +81,10 @@ export default function Home() {
         </div>
       )}
 
-      {/* Login screen */}
       {screen === 'login' && (
         <div className="p-6 max-w-3xl mx-auto text-center">
           <h1 className="text-3xl font-bold mb-4" style={{ color: 'black' }}>Login</h1>
           <p className="text-lg mb-6">Login functionality coming soon!</p>
-          {/* Back button in bottom left corner */}
           <button
             className="absolute top-26 left-6 px-4 py-2 text-white rounded-xl text-sm"
             style={{ backgroundColor: '#DD649C' }}
@@ -94,7 +95,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* Role selection screen */}
       {screen === 'role' && (
         <div className="p-6 max-w-3xl mx-auto text-center">
           <h1 className="text-3xl font-bold mb-4" style={{ color: 'black' }}>AI Helper</h1>
@@ -102,20 +102,24 @@ export default function Home() {
             <button
               className="px-4 py-2 text-white rounded-xl"
               style={{ backgroundColor: '#DD649C' }}
-              onClick={() => setRole('employee')}
+              onClick={() => {
+                setRole('employee');
+                setScreen('analyzer'); // Go directly to the analyzer screen after selecting a role
+              }}
             >
               I’m a Job Seeker
             </button>
             <button
               className="px-4 py-2 text-white rounded-xl"
               style={{ backgroundColor: '#DD649C' }}
-              onClick={() => setRole('employer')}
+              onClick={() => {
+                setRole('employer');
+                setScreen('analyzer'); // Go directly to the analyzer screen after selecting a role
+              }}
             >
               I’m an Employer
             </button>
           </div>
-
-          {/* Back button in bottom left corner */}
           <button
             className="absolute top-26 left-6 px-4 py-2 text-white rounded-xl text-sm"
             style={{ backgroundColor: '#DD649C' }}
@@ -126,8 +130,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* Analyzer screen for both roles */}
-      {(role === 'employee' || role === 'employer') && (
+      {screen === 'analyzer' && (
         <div className="p-6 max-w-3xl mx-auto">
           <div className="mt-6 bg-white p-4 rounded-xl shadow">
             <h2 className="text-xl font-semibold mb-2" style={{ color: 'black' }}>
@@ -158,6 +161,14 @@ export default function Home() {
               </div>
             )}
           </div>
+          {/* ** Back Button Added Below ** */}
+          <button
+            className="absolute top-6 left-6 px-4 py-2 text-white rounded-xl text-sm"
+            style={{ backgroundColor: '#DD649C' }}
+            onClick={handleBackToRole} // Go back to the role selection screen and clear the inputs
+          >
+            ← Back
+          </button>
         </div>
       )}
     </div>
