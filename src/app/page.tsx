@@ -8,6 +8,17 @@ export default function Home() {
   const [resume, setResume] = useState('');
   const [jobDesc, setJobDesc] = useState('');
   const [result, setResult] = useState('');
+  const [recorder, setRecorder] = useState<MediaRecorder | null>(null);
+
+  const [transcript, setTranscript] = useState('');
+
+  const [isInterviewActive, setInterviewActive] = useState(false);
+  const [currentQuestion, setCurrentQuestion] = useState('');
+  const [recording, setRecording] = useState(false);
+  const [audioUrl, setAudioUrl] = useState('');
+  let mediaRecorder: MediaRecorder;
+  let audioChunks: Blob[] = [];
+  
 
   const handleAnalyze = async () => {
     const res = await fetch('/api/analyze', {
@@ -18,14 +29,104 @@ export default function Home() {
     const data = await res.json();
     setResult(data.result);
   };
+  
 
   // Function to reset text boxes and go back to role selection
   const handleBackToRole = () => {
     setResume('');      // Clear resume input
     setJobDesc('');     // Clear job description input
     setScreen('role');  // Go back to role selection screen
+    
   };
 
+  // Mock Interview Controls
+const startMockInterview = () => {
+  setCurrentQuestion("Tell me about a time you overcame a challenge at work.");
+  setInterviewActive(true);
+  speak("Tell me about a time you overcame a challenge at work.");
+};
+
+const endMockInterview = () => {
+  setInterviewActive(false);
+  setCurrentQuestion('');
+  setAudioUrl('');
+};
+
+const speak = (text: string) => {
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'en-US';
+  speechSynthesis.speak(utterance);
+};
+
+const startRecording = async () => {
+  try {
+    setRecording(true);
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const newRecorder = new MediaRecorder(stream);
+    let localChunks: Blob[] = [];
+
+    newRecorder.ondataavailable = (event) => {
+      localChunks.push(event.data);
+    };
+
+    newRecorder.onstop = async () => {
+      const audioBlob = new Blob(localChunks, { type: 'audio/webm' });
+      const url = URL.createObjectURL(audioBlob);
+      setAudioUrl(url);
+      setRecording(false);
+    
+      // 🔁 Step 1: Transcribe audio
+      const formData = new FormData();
+      formData.append("file", audioBlob);
+      formData.append("model", "whisper-1");
+      const whisperRes = await fetch("https://api.openai.com/v1/audio/transcriptions", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`, // or from your .env
+        },
+        body: formData,
+      });
+    
+      const whisperData = await whisperRes.json();
+      const userAnswer = whisperData.text;
+      setTranscript(userAnswer);
+    
+      // 🔁 Step 2: Send to AI backend for follow-up
+      const aiRes = await fetch("/api/mock-interview", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          question: currentQuestion,
+          answer: userAnswer,
+        }),
+      });
+    
+      const aiData = await aiRes.json();
+      const followUp = aiData.followUp;
+      setCurrentQuestion(followUp);
+    
+      // 🔁 Step 3: Speak it
+      speak(followUp);
+    };
+    
+
+    newRecorder.start();
+    setRecorder(newRecorder); // Save the recorder in state
+  } catch (err) {
+    console.error("Mic access error:", err);
+    setRecording(false);
+  }
+};
+
+const stopRecording = () => {
+  if (recorder && recorder.state !== 'inactive') {
+    recorder.stop();
+  } else {
+    console.warn("No active recorder found.");
+  }
+};
+
+  
   return (
     <div className="min-h-screen relative" style={{ backgroundColor: '#FFFFFF' }}>
       <div className="w-full p-10" style={{ backgroundColor: '#3F3DE8' }}>
@@ -130,47 +231,122 @@ export default function Home() {
         </div>
       )}
 
-      {screen === 'analyzer' && (
-        <div className="p-6 max-w-3xl mx-auto">
-          <div className="mt-6 bg-white p-4 rounded-xl shadow">
-            <h2 className="text-xl font-semibold mb-2" style={{ color: 'black' }}>
-              {role === 'employee' ? 'Resume Analyzer' : 'Candidate Analyzer'}
-            </h2>
-            <textarea
-              className="p-2 border rounded-xl w-full h-40 mt-2"
-              placeholder={role === 'employee' ? 'Paste your resume here...' : 'Paste candidate resume here...'}
-              value={resume}
-              onChange={(e) => setResume(e.target.value)}
-            />
-            <textarea
-              className="p-2 border rounded-xl w-full h-40 mt-4"
-              placeholder="Paste the job description here..."
-              value={jobDesc}
-              onChange={(e) => setJobDesc(e.target.value)}
-            />
-            <button
-              className="px-4 py-2 text-white rounded-xl mt-4"
-              style={{ backgroundColor: '#DD649C' }}
-              onClick={handleAnalyze}
-            >
-              {role === 'employee' ? 'Analyze Fit' : 'Analyze Candidate'}
-            </button>
-            {result && (
-              <div className="mt-4 whitespace-pre-wrap bg-gray-100 p-4 rounded-xl">
-                {result}
-              </div>
-            )}
-          </div>
-          {/* ** Back Button Added Below ** */}
+{screen === 'analyzer' && (
+  <div className="p-6 max-w-3xl mx-auto">
+    <div className="mt-6 bg-white p-4 rounded-xl shadow">
+      <h2 className="text-xl font-semibold mb-2" style={{ color: 'black' }}>
+        {role === 'employee' ? 'Resume Analyzer' : 'Candidate Analyzer'}
+      </h2>
+
+      <textarea
+        className="p-2 border rounded-xl w-full h-40 mt-2"
+        placeholder={role === 'employee' ? 'Paste your resume here...' : 'Paste candidate resume here...'}
+        value={resume}
+        onChange={(e) => setResume(e.target.value)}
+      />
+
+      <textarea
+        className="p-2 border rounded-xl w-full h-40 mt-4"
+        placeholder="Paste the job description here..."
+        value={jobDesc}
+        onChange={(e) => setJobDesc(e.target.value)}
+      />
+
+      <div className="flex flex-wrap mt-4 gap-4">
+        <button
+          className="px-4 py-2 text-white rounded-xl"
+          style={{ backgroundColor: '#DD649C' }}
+          onClick={handleAnalyze}
+        >
+          {role === 'employee' ? 'Analyze Fit' : 'Analyze Candidate'}
+        </button>
+
+        {role === 'employee' && (
           <button
-            className="absolute top-6 left-6 px-4 py-2 text-white rounded-xl text-sm"
-            style={{ backgroundColor: '#DD649C' }}
-            onClick={handleBackToRole} // Go back to the role selection screen and clear the inputs
+            className="px-4 py-2 text-white rounded-xl"
+            style={{ backgroundColor: '#3F3DE8' }}
+            onClick={startMockInterview}
           >
-            ← Back
+            Start Mock Interview
           </button>
+        )}
+      </div>
+
+      {result && (
+        <div className="mt-4 whitespace-pre-wrap bg-gray-100 p-4 rounded-xl">
+          {result}
         </div>
       )}
+
+      {isInterviewActive && (
+        <div className="mt-6 bg-gray-100 p-4 rounded-xl">
+        <h3 className="text-lg font-semibold mb-2 text-black">Mock Interview</h3>
+        
+        <div className="flex items-center gap-4 mb-4">
+          <img
+            src="/interviewer-avatar.png"
+            alt="AI Interviewer"
+            className="w-20 h-20 rounded-full border border-gray-300"
+          />
+          <div>
+            <p className="text-black"><strong>AI Interviewer:</strong> {currentQuestion}</p>
+            <button
+              className="mt-2 px-3 py-1 rounded text-sm text-white"
+              style={{ backgroundColor: '#3F3DE8' }}
+              onClick={() => speak(currentQuestion)}
+            >
+              🔊 Hear Question
+            </button>
+          </div>
+        </div>
+      
+        <div className="flex gap-4 items-center">
+          {!recording ? (
+            <button
+              className="px-4 py-2 rounded-xl text-white"
+              style={{ backgroundColor: '#DD649C' }}
+              onClick={startRecording}
+            >
+              🎙️ Record Answer
+            </button>
+          ) : (
+            <button
+              className="px-4 py-2 rounded-xl text-white"
+              style={{ backgroundColor: '#FF6B6B' }}
+              onClick={stopRecording}
+            >
+              ⏹️ Stop Recording
+            </button>
+          )}
+      
+          {audioUrl && (
+            <audio controls className="ml-2">
+              <source src={audioUrl} type="audio/webm" />
+            </audio>
+          )}
+        </div>
+      
+        <button
+          className="mt-4 px-4 py-2 text-white rounded-xl"
+          style={{ backgroundColor: '#DD649C' }}
+          onClick={endMockInterview}
+        >
+          End Interview
+        </button>
+      </div>      
+      )}
+    </div>
+
+    <button
+      className="absolute top-6 left-6 px-4 py-2 text-white rounded-xl text-sm"
+      style={{ backgroundColor: '#DD649C' }}
+      onClick={handleBackToRole}
+    >
+      ← Back
+    </button>
+  </div>
+)}
+
     </div>
   );
 }
