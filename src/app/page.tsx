@@ -288,7 +288,7 @@ const stopRecording = () => {
     <div className="flex items-start gap-6 mb-6">
       {/* Add the larger image here */}
       <img
-        src="ChatGPT Image Apr 5, 2025, 10_15_24 PM.png"
+        src="interviewerImage.png"
         alt="AI Interviewer"
         className="w-500 h-100 rounded-full object-cover border border-gray-300"
       />
