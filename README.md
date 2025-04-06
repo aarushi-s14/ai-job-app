@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# 🎤 Resu-ME
 
-First, run the development server:
+**The Only AI Interviewer Prep Tool**
+
+Resu-ME is an AI-powered web application that helps job seekers optimize their resumes and prepare for interviews with realistic AI-driven mock interview sessions. It also provides tools for employers to evaluate candidates efficiently.
+
+## 🚀 Features
+
+- 🎯 **Resume & Job Description Analyzer**: Get insights on how well a resume matches a job description.
+- 🧠 **AI-Powered Mock Interviews**: Practice with an AI interviewer that asks questions and listens to your spoken answers.
+- 🔊 **Speech Synthesis & Recording**: Hear questions spoken aloud and record your answers directly in the browser.
+- 🛡️ **Privacy First**: Your data is kept secure and never shared.
+
+## 🛠️ Tech Stack
+
+- **Frontend**: Next.js, React, Tailwind CSS
+- **Backend**: Node.js, DeepSeek API
+- **Audio Processing**: Web Audio API, MediaRecorder
+- **Deployment**: Github Pages
+
+
+## 🧪 Getting Started
+✨ Usage
+Click Let’s Go! to get started.
+
+Choose your role: Job Seeker or Employer.
+
+Paste your resume and the job description to analyze compatibility.
+
+Start a Mock Interview — AI will ask you a question and record your answer.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+git clone https://github.com/your-username/resu-me.git
+cd resu-me
