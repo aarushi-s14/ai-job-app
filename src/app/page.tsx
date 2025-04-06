@@ -150,11 +150,11 @@ const stopRecording = () => {
 
       {screen === 'landing' && (
         <div className="flex flex-col items-center justify-center text-center h-[90vh] px-4">
-          <h1 className="text-6xl font-extrabold mb-4" style={{ color: '#DD649C' }}>
+          <h1 className="text-9xl font-bold mb-4" style={{ color: '#DD649C' }}>
             Resu-ME
           </h1>
           <p className="text-2xl mb-8" style={{ color: 'black' }}>
-            The perfect place to prep for an interview!
+            The perfect place to prep for an interview! "The Only AI Interviewer Prep."
           </p>
           <button
             className="px-6 py-3 rounded-xl text-white text-lg font-semibold"
@@ -169,9 +169,12 @@ const stopRecording = () => {
       {screen === 'mission' && (
         <div className="p-6 max-w-3xl mx-auto text-center">
           <h1 className="text-3xl font-bold mb-4" style={{ color: 'black' }}>Our Mission</h1>
+            const imageUrl = 'https://photos.fife.usercontent.google.com/pw/AP1GczOGnXklLBOeM1kPCzalCt4FSL9Ru374L308huTOMd-M7jDYhA2jRNwg=w2432-h1824-s-no-gm?authuser=0';
           <p className="text-lg mb-6">
-            Our mission is to help job seekers and employers alike find the best matches using smart AI tools.
+            Our goal is to enhance resumes to effectivly highlight individuals' skills and epperiencess. We aim to improve applicants' chances of acceptance by refining their resumes. Additionally, we assist employers in narrowing down canidates by allowing them to input specifc key words. We also offer a tool that enables applicants to practice for mock interviews through AI-powered video calls. Furthermore, our websites provides examples of resumes of past users.
           </p>
+          <h2 className="text-3xl font-bold mb-4" style={{ color: 'black' }}>Privacy</h2>
+          <p>One of the primary objectives of Resu-ME is to safeguard the information we gather from our users, ensuring that it remains confidential and is ot disclosed to any third parties. We are dedicaterd to upholding the highest standards of user privacy while implementing robust security measures to protect data from unauthorized access or breaches. Your trust is important to us, and we strive to create a safe environment for your personal information.</p>
           <button
             className="absolute top-26 left-6 px-4 py-2 text-white rounded-xl text-sm"
             style={{ backgroundColor: '#DD649C' }}
@@ -234,7 +237,7 @@ const stopRecording = () => {
 {screen === 'analyzer' && (
   <div className="p-6 max-w-3xl mx-auto">
     <div className="mt-6 bg-white p-4 rounded-xl shadow">
-      <h2 className="text-xl font-semibold mb-2" style={{ color: 'black' }}>
+      <h2 className="text-3xl font-bold mb-4 text-center" style={{ color: 'black'}}>
         {role === 'employee' ? 'Resume Analyzer' : 'Candidate Analyzer'}
       </h2>
 
@@ -278,63 +281,66 @@ const stopRecording = () => {
         </div>
       )}
 
-      {isInterviewActive && (
-        <div className="mt-6 bg-gray-100 p-4 rounded-xl">
-        <h3 className="text-lg font-semibold mb-2 text-black">Mock Interview</h3>
-        
-        <div className="flex items-center gap-4 mb-4">
-          <img
-            src="/interviewer-avatar.png"
-            alt="AI Interviewer"
-            className="w-20 h-20 rounded-full border border-gray-300"
-          />
-          <div>
-            <p className="text-black"><strong>AI Interviewer:</strong> {currentQuestion}</p>
-            <button
-              className="mt-2 px-3 py-1 rounded text-sm text-white"
-              style={{ backgroundColor: '#3F3DE8' }}
-              onClick={() => speak(currentQuestion)}
-            >
-              🔊 Hear Question
-            </button>
-          </div>
-        </div>
-      
-        <div className="flex gap-4 items-center">
-          {!recording ? (
-            <button
-              className="px-4 py-2 rounded-xl text-white"
-              style={{ backgroundColor: '#DD649C' }}
-              onClick={startRecording}
-            >
-              🎙️ Record Answer
-            </button>
-          ) : (
-            <button
-              className="px-4 py-2 rounded-xl text-white"
-              style={{ backgroundColor: '#FF6B6B' }}
-              onClick={stopRecording}
-            >
-              ⏹️ Stop Recording
-            </button>
-          )}
-      
-          {audioUrl && (
-            <audio controls className="ml-2">
-              <source src={audioUrl} type="audio/webm" />
-            </audio>
-          )}
-        </div>
-      
-        <button
-          className="mt-4 px-4 py-2 text-white rounded-xl"
-          style={{ backgroundColor: '#DD649C' }}
-          onClick={endMockInterview}
-        >
-          End Interview
-        </button>
-      </div>      
-      )}
+    {isInterviewActive && (
+     <div className="mt-6 bg-gray-100 p-4 rounded-xl">
+     <h3 className="text-lg font-semibold mb-2 text-black">Mock Interview</h3>
+   
+     <div className="flex items-center gap-4 mb-4">
+       {/* Add the image here */}
+       <img
+         src="httpshttps://drive.google.com/file/d/1wm7z5oyNAizNbm7I_e5tvgY2G4oudLB4/view?usp=sharing://drive.google.com/uc?export=view&id=1wm7z5oyNAizNbm7I_e5tvgY2G4oudLB4"
+         alt="AI Interviewer"
+         className="w-20 h-20 rounded-full border border-gray-300"
+       />
+       <div>
+         <p className="text-black"><strong>AI Interviewer:</strong> {currentQuestion}</p>
+         <button
+           className="mt-2 px-3 py-1 rounded text-sm text-white"
+           style={{ backgroundColor: '#3F3DE8' }}
+           onClick={() => speak(currentQuestion)}
+         >
+           🔊 Hear Question
+         </button>
+       </div>
+     </div>
+   
+     <div className="flex gap-4 items-center">
+       {!recording ? (
+         <button
+           className="px-4 py-2 rounded-xl text-white"
+           style={{ backgroundColor: '#DD649C' }}
+           onClick={startRecording}
+         >
+           🎙️ Record Answer
+         </button>
+       ) : (
+         <button
+           className="px-4 py-2 rounded-xl text-white"
+           style={{ backgroundColor: '#FF6B6B' }}
+           onClick={stopRecording}
+         >
+           ⏹️ Stop Recording
+         </button>
+       )}
+   
+       {audioUrl && (
+         <audio controls className="ml-2">
+           <source src={audioUrl} type="audio/webm" />
+         </audio>
+       )}
+     </div>
+   
+     <button
+       className="mt-4 px-4 py-2 text-white rounded-xl"
+       style={{ backgroundColor: '#DD649C' }}
+       onClick={endMockInterview}
+     >
+       End Interview
+     </button>
+   </div>
+         
+    )}
+
     </div>
 
     <button
